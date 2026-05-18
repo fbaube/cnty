@@ -1,0 +1,33 @@
+// MISCELLANEOUS NOTES re glink 
+//
+// Link varieties:: Outward/Outgoing, Inside
+// Link resolution: Inbound/Incoming, Inside
+//
+// IDs are used in all XML-based markup formats of interest,
+// but IDREFs seem to be more restricted - fewer use cases.
+// IDs form a flat "namespace", so we need to type them -
+// they need to include string prefixes that specify the
+// object domain(s).
+// For an ID, HTML uses "<a name=FOO>" but HTML5 has in the-
+// ory deprecated "<a name=...>" and now prefers ""@id=FOO".
+// In any case, presented a choice, a reference will prefer
+// the "@id" as target over the "<a name=...>".
+// In fact, in HTML5 the "<a..>" element no longer has @name.
+// Also, in XHTML5, IDs cannot contain an unescaped LT sign (<).
+//
+// See also https://www.w3.org/TR/REC-xml/#id
+//
+// See also https://www.w3.org/TR/html4/struct/links.html#h-12.2.3
+// You can name a destination anchor with the id attribute:
+//   Here's a <a id="anchor-two">photo of my idiot cat.</A>.
+// @id and @name share the same name space. Therefore they may not
+// both define an anchor with the same name in the same document.
+// It is OK to use both attributes to specify an element's unique
+// identifier for these elements: A, APPLET, FORM, FRAME, IFRAME,
+// IMG, and MAP. When both attributes are used on a single element,
+// their values must be identical.
+//
+// In LwDITA, topics MUST have an ID and maps MAY have an ID.
+// Since @id functions as the target of the various key tags,
+// they function (in effect) as XML IDREF's.
+
