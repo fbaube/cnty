@@ -9,7 +9,7 @@ import (
 	PU "github.com/fbaube/parseutils"
 	SU "github.com/fbaube/stringutils"
 	XU "github.com/fbaube/xmlutils"
-	L "github.com/fbaube/mlog"
+//	L "github.com/fbaube/mlog"
 )
 
 // Old cryptic notes: 
@@ -188,7 +188,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 	var e error
 	var GTs []*gtoken.GToken
 	var common XU.CommonCPR
-	var Ser SU.Stringser
+//	var Ser SU.Stringser
 
 	fmt.Fprintln(p.GTknsWriter, "=== Input file:", p.FSO.FPs.AbsFP)
 
@@ -200,7 +200,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		}
 		pCPR_M = p.ParserResults.(*PU.ParserResults_mkdn)
 		common = pCPR_M.CommonCPR
-		Ser = pCPR_M
+//		Ser = pCPR_M
 		// Do this
 		pCPR_M.Writer = io.Discard
 		// instead of this
@@ -224,7 +224,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		var pCPR_H *PU.ParserResults_html
 		pCPR_H = p.ParserResults.(*PU.ParserResults_html)
 		common = pCPR_H.CommonCPR
-		Ser = pCPR_H
+//		Ser = pCPR_H
 		// Do this
 		pCPR_H.Writer = io.Discard
 		// instead of this
@@ -238,7 +238,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		var pCPR_X *XU.ParserResults_xml
 		pCPR_X = p.ParserResults.(*XU.ParserResults_xml)
 		common = pCPR_X.CommonCPR
-		Ser = pCPR_X
+//		Ser = pCPR_X
 		// Do this
 		pCPR_X.Writer = io.Discard
 		// instead of this
@@ -252,17 +252,20 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		// fmt.Printf("==> Atts: %v \n", pGF.AttTally)
 		p.GTokens = GTs
 	}
+	fmt.Println("%v", common)
+/*
 	ndL := len(common.NodeDepths)
 	fpL := len(common.FilePosns)
 	gtL := len(p.GTokens)
-	nsL := Ser.Count()
+//	nsL := Ser.Count()
 	fmt.Fprintln(p.GTknsWriter, "=== Output:")
+/*
 	fmt.Fprintf(p.GTknsWriter, "=== array lengths: " +
 		"cmn.NodeDepths<%d> cmn.FilePosns<%d> GTokens<%d> " +
 		"Ser.Count<%d> \n", ndL, fpL, gtL, nsL)
 	/* fmt.Printf("st1-read: array lengths: " +
 		"cmn.NodeDepths<%d> cmn.FilePosns<%d> GTokens<%d> " +
-		"Ser.Count<%d> \n", ndL, fpL, gtL, nsL) */
+		"Ser.Count<%d> \n", ndL, fpL, gtL, nsL) 
 	count := (ndL + fpL + gtL + nsL + 2) / 4
 	// For every GToken, we should print:
 	//  - original node's original text
@@ -277,14 +280,13 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		   }
 		tkn := *(p.GTokens[i])
 		fmt.Fprintf(p.GTknsWriter, "[%d]\n", i)
-		fmt.Fprintf(p.GTknsWriter, "echo: %s \n", Ser.Echo(i))
-		fmt.Fprintf(p.GTknsWriter, "info: %s \n", Ser.Info(i))
-		fmt.Fprintf(p.GTknsWriter, "dbug: %s \n", Ser.Debug(i))
+		fmt.Fprintf(p.GTknsWriter, "%v \n", Ser)
 		// Dump the GToken
 		// fmt.Fprintln(p.GTknsWriter, (*pGtkn).String())
 		// fmt.Fprintf(p.GTknsWriter, "<%+v>\n", *pGtkn)
 		fmt.Fprintf(p.GTknsWriter, "<%s>\n", tkn.Echo())
 	}
+*/
 	// fmt.Printf("st1c_MakeAFLfromCFL: nGTokens: %d %d \n", len(p.GTokens), len(GTs))
 	return p
 }

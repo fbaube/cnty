@@ -9,10 +9,13 @@ require (
 	github.com/fbaube/gparse v0.0.0-20230421173125-0aaf74eb920c
 	github.com/fbaube/gtoken v0.0.0-20250202180149-400361451572
 	github.com/fbaube/gtree v0.0.0-20260423182224-b2b3f075a837
+	github.com/fbaube/logutils v0.0.0-20250316184850-0569e5bc6b6d
 	github.com/fbaube/m5db v0.0.0-20240509180501-84aae2bef357
 	github.com/fbaube/mlog v0.0.0-20240425064535-3b89e3b28a76
 	github.com/fbaube/nork v0.0.0-20260513174333-f412b25a4b1a
+	github.com/fbaube/parseutils v0.0.0-20250126182432-3beb8a9f0044
 	github.com/fbaube/stringutils v0.0.0-20260511123541-ab996b555f8d
+	github.com/fbaube/xmlutils v0.0.0-20251106122139-7e9277a71ff9
 	github.com/nbio/xml v0.0.0-20260302224236-9f64bb3b5a9e
 )
 
@@ -21,12 +24,9 @@ require (
 	github.com/fbaube/datarepo v0.0.0-20250422172143-4b2a5bad214f // indirect
 	github.com/fbaube/dsmnd v0.0.0-20260423181020-c1c848686981 // indirect
 	github.com/fbaube/humanbytes v0.0.0-20250119091546-d58fbfdd444c // indirect
-	github.com/fbaube/logutils v0.0.0-20250316184850-0569e5bc6b6d // indirect
 	github.com/fbaube/lwdx v0.0.0-20241028093627-8a7133fbc931 // indirect
 	github.com/fbaube/miscutils v0.0.0-20250126181629-6a2fa9af43b7 // indirect
-	github.com/fbaube/parseutils v0.0.0-20250126182432-3beb8a9f0044 // indirect
 	github.com/fbaube/wasmutils v0.0.0-20251129222829-80044fd986ff // indirect
-	github.com/fbaube/xmlutils v0.0.0-20251106122139-7e9277a71ff9 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/gomarkdown/markdown v0.0.0-20260417124207-7d523f7318df // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
