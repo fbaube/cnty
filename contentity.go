@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"github.com/fbaube/gtoken"
+	"github.com/fbaube/gparse"
 	"github.com/fbaube/gtree"
 	"github.com/fbaube/m5db"
 	N "github.com/fbaube/nork"
@@ -69,7 +70,7 @@ type Contentity struct { // has Raw
 	GLinks
 
 	// GEnts is "ENTITY"" directives (both with "%" and without).
-//	GEnts map[string]*gparse.GEnt
+	GEnts map[string]*gparse.GEnt
 	// DElms is "ELEMENT" directives.
 //	DElms map[string]*gtree.GTag
 

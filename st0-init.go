@@ -34,8 +34,8 @@ func (p *Contentity) st0_Init() *Contentity {
 	return p.st0a_SanityCheck()
 }
 
-// st0a_SanityCheck checks that `mcfile.MarkupType()` &
-// `mcfile.IsXML()` are OK and that `MCFile.MType[]` is set.
+// st0a_SanityCheck checks that `cnty.MarkupType()` &
+// `cnty.IsXML()` are OK and that `Cnty.MType[]` is set.
 func (p *Contentity) st0a_SanityCheck() *Contentity {
 	p.Lstage = "0a"
 	var errStr string 

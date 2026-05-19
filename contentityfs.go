@@ -10,7 +10,7 @@ import (
 )
 
 // ContentityFS is an instance of an [fs.FS] where every
-// node is an [mcfile.Contentity].
+// node is a [cnty.Contentity].
 //
 // Note that directories ARE included in the tree, because
 // the instances of [orderednodes.Nord] in each [Contentity]
