@@ -17,34 +17,47 @@ import (
 // NewContentityFS is the entrypoint for processing an input
 // directory tree of files and it proceeds as follows:
 //  - initialize
-//  - create an [os.DirFS]
-//  - FIXME: an [os.Root]
+//  - create an [os.Root] (see https://pkg.go.dev/os@go1.26.3#Root )
 //  - create a [nork.NorkFactory] 
-//  - walk the DirFS, creating Contentities
+//  - walk the RootFS, creating Contentities
 //    and appending them to a slice
 //  - process the list to identify and make
 //    parent/child links
+//
+// ContentityFS embeds [FSObject] embeds [Errer]. 
+//
+// About [os.Root] and RootFS:
+//  - Root may be used to only access files within a single directory tree.
+//  - Methods on Root can only access files and directories beneath a root
+//    directory. If any component of a file name passed to a method of Root
+//    references a location outside the root, the method returns an error.
+//    File names may reference the directory itself (.).
+//  - Methods on Root will follow symbolic links, but symbolic links may
+//    not reference a location outside the root. Symbolic links must not
+//    be absolute.
+//  - Methods on Root do not prohibit traversal of filesystem boundaries,
+//    Linux bind mounts, /proc special files, or access to Unix device files.
+//  - Methods on Root are OK for use from multiple goroutines simultaneously.
+//  - On most platforms, creating a Root opens a file descriptor or handle
+//    referencing the directory. If the directory is moved, methods on Root
+//    reference the original directory in its new location.
 //
 // The path argument should probably be an absolute FP, 
 // because a relative FP might cause problems. Note that
 // this is the opposite of the advice for lower-level items.
 //
-// Note that when we use [os.DirFS], it appears
+// Note that when we used [os.DirFS], it appeared 
 // to make no difference whether path 
 //  - is relative or absolute
 //  - ends with a trailing slash or not
 //  - is a directory or a symlink to a directory
-// It probably needs serious testing. 
+// It probably needs serious testing, especially now with RootFS.
 //
 // The only error returns for this func are:
-//  - a bad path, rejected by func FU.NewFilepaths
+//  - a bad path, rejected by FU func [NewFilepaths] 
 //  - the path is not a directory (altho it can be
 //    a symlnk to a directory ?)
 //  - TBD: WHat happens of [os.Root] barfs on something ? 
-//
-// ContentityFS does not embed Errer and cannot itself
-// return an error. FIXME: change this ? Probably not.
-// Why would the FS later acquire an error ?
 //
 // TODO Add two flags ?
 // Maybe it needs two boolean arguments:
@@ -63,28 +76,29 @@ import (
 func NewContentityFS(aPath string, okayFilexts []string) (*ContentityFS, error){
      	var pCntyFS = new(ContentityFS)
 	var e error 
-	var pFSO *FU.FSObject
-	var pRC  *Contentity // *N.FSONork // Root Nork 
-	var pCntyFactory *ContentityFactory // *N.FSOTreeNorkFactory
+	var pRootCnty    *Contentity 
+	var pCntyFactory *ContentityFactory 
 	var pPE *os.PathError
+	pPE = new(os.PathError{Path:aPath})
 
 	// -----------------------
 	//  Prepare filepaths and
 	//   check for directory 
 	// -----------------------
 	L.L.Info("Making NewContentityFS: " + aPath)
-	pFSO = FU.NewFSObject(aPath)
-	if pFSO.HasError() {
+	pRootCnty = NewContentity(aPath)
+	pCntyFS.rootCnty = pRootCnty
+	if pRootCnty.HasError() {
 	     	L.L.Error("NewCntyFS: bad path: %s", aPath)
 		pPE.Op = "newcntyfs:newfso"
 		pPE.Err = errors.New("bad root path")
 		return pCntyFS, pPE 
 	}
-	pathToUse := FU.EnsureTrailingPathSep(aPath)
+	pathToUse := pRootCnty.FSO.FPs.RelFP // FU.EnsureTrailingPathSep
 	pPE.Path = pathToUse
 	// os.DirFS(..) does not check or report problems
 	// with the path argument, so we DIY here 
-	if pFSO.FPs.DoesNotExist || !pFSO.FPs.IsDir {
+	if pRootCnty.FSO.FPs.DoesNotExist || !pRootCnty.FSO.FPs.IsDir {
 		L.L.Error("NewCntyFS: Not a directory: %s", aPath)
 		pPE.Op = "newcntyfs.root"
 		pPE.Err = errors.New("not a valid directory")
@@ -95,18 +109,15 @@ func NewContentityFS(aPath string, okayFilexts []string) (*ContentityFS, error){
 	// ---------------
 	// 2025.01 Change from RelFP to AbsFP (Altho 
 	// there was probly a good reason to use RelFP)
-	pCntyFS.rootAbsPath = pFSO.FPs.AbsFP // path 
-	L.L.Info("Path for new os.RootFS: " + SU.Tildotted(aPath))
+	L.L.Info("Path for new os.RootFS: " + aPath)
 	var osRoot *os.Root 
-	osRoot, e = os.OpenRoot(pathToUse)
+	osRoot, e = os.OpenRoot(aPath)
 	pCntyFS.FS = osRoot.FS()
-	println("contentityfs_new L104 FIXED? os.Root")
-	// pCntyFS.FS = os.DirFS(pathToUse) // Obsoleted by Root 
 	// ----------------------
 	//  Create root Nork and
 	//   FSOTreeNorkFactory
 	// ----------------------
-//	pCntyFactory, pRC, e = N.NewFSOTreeNorkFactory(pathToUse)
+//	pCntyFactory, pRootCnty, e = N.NewFSOTreeNorkFactory(pathToUse)
 	pCntyFactory = new(ContentityFactory)
 	pCntyFactory.rootPath = pathToUse
 /*
@@ -118,9 +129,9 @@ func NewContentityFS(aPath string, okayFilexts []string) (*ContentityFS, error){
 	// Initialize slice & map. Their length 
 	// 0 will be detected by func [mustInit]
 	pCntyFS.asSlice = make([]*Contentity, 0)
-	pCntyFS.asSlice = append(pCntyFS.asSlice, pRC)
+	pCntyFS.asSlice = append(pCntyFS.asSlice, pRootCnty)
 	pCntyFS.asMapOfAbsFP = make(map[string]*Contentity)
-	pCntyFS.asMapOfAbsFP[pCntyFS.rootAbsPath] = pRC
+	pCntyFS.asMapOfAbsFP[pCntyFS.rootCnty.FSO.FPs.AbsFP] = pRootCnty
 
 	// ==================
 	//    FIRST PASS

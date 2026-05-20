@@ -6,7 +6,6 @@ import (
 	FU "github.com/fbaube/fileutils"
 	SU "github.com/fbaube/stringutils"
         CT "github.com/fbaube/ctoken"
-        N  "github.com/fbaube/nork"
 )
 
 // ContentityFS is an instance of an [fs.FS] where every
@@ -27,9 +26,10 @@ import (
 type ContentityFS struct {
 	// FS will be set from func [os.DirFS]
 	fs.FS
-	N.FSOTreeNorkFactory
-	rootAbsPath string
-	rootCnty    *Contentity // *RootContentity
+//	N.FSOTreeNorkFactory
+//	rootAbsPath string
+	// rootCnty embeds an FSO 
+	rootCnty    *Contentity 
 	asSlice     []*Contentity
 	// The string USED TO be the relative filepath w.r.t. the 
 	// rootAbsPath. Now we simplify it to AbsFP. It's not really
@@ -71,7 +71,8 @@ func (p *ContentityFS) RootContentity() *Contentity { // *RootContentity {
 }
 
 func (p *ContentityFS) RootAbsPath() string {
-	return p.rootAbsPath
+//	return p.rootAbsPath
+	return p.rootCnty.FSO.FPs.AbsFP 
 }
 
 func (p *ContentityFS) AsSlice() []*Contentity {

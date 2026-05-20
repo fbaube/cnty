@@ -18,6 +18,8 @@ github.com/fbaube/fileutils v0.0.0-20260508165924-0775e892866d h1:+g1gGl2VtQ1EtA
 github.com/fbaube/fileutils v0.0.0-20260508165924-0775e892866d/go.mod h1:wa8+osGHHT64XwOwTBgCIvVZP5R7xW2Yf8aUx9d1pw4=
 github.com/fbaube/fileutils v0.0.0-20260517055322-b852341d926f h1:Lfi1d1aazxUo24VRorOpsKuBDPqc6FH422Ew1E1qoc8=
 github.com/fbaube/fileutils v0.0.0-20260517055322-b852341d926f/go.mod h1:M2B1LVCoEseM+KxP2ebqN5Y1heZf9btVfgmqnSUoWKU=
+github.com/fbaube/fileutils v0.0.0-20260519121518-d3a3ed720974 h1:YpMlxI1ToN8A+gWZ+qBNAfdnn6CwHR0m5Rf+O8btqws=
+github.com/fbaube/fileutils v0.0.0-20260519121518-d3a3ed720974/go.mod h1:M2B1LVCoEseM+KxP2ebqN5Y1heZf9btVfgmqnSUoWKU=
 github.com/fbaube/gparse v0.0.0-20230421173125-0aaf74eb920c h1:Wc/p/iz4WKF00neYNYszzfGsI7VhR2P/ZAu7TCjtXQs=
 github.com/fbaube/gparse v0.0.0-20230421173125-0aaf74eb920c/go.mod h1:0eMhKY31+tGA22qYyPzkDHPf/Q+3BZyUfDRLGjZywFM=
 github.com/fbaube/gtoken v0.0.0-20220221192313-06c1a87f1884/go.mod h1:L5TPmM5qhEVECO49RCwHxUMIJStcDicDuXPz9VzgyNs=
@@ -40,9 +42,13 @@ github.com/fbaube/mlog v0.0.0-20240425064535-3b89e3b28a76 h1:C1SjY+GWMR1smUZqspW
 github.com/fbaube/mlog v0.0.0-20240425064535-3b89e3b28a76/go.mod h1:kmnrjIOIydIQG0XoPcMoQ9XYJmVTt9fOByMvkDiDBTo=
 github.com/fbaube/nork v0.0.0-20260513174333-f412b25a4b1a h1:Y86xmWW5ey92QgxugF/j9ri8YwvSHUICKJNvkiS0lks=
 github.com/fbaube/nork v0.0.0-20260513174333-f412b25a4b1a/go.mod h1:iFOiTIWwfFsoL0OVM50pFa9r0psLhre3ekX/EfGOA5g=
+github.com/fbaube/nork v0.0.0-20260519122447-6ce697984057 h1:qNCJrLuCtkGoNSzJm0epppXzu5A+q9x0NXgk7pPiwCc=
+github.com/fbaube/nork v0.0.0-20260519122447-6ce697984057/go.mod h1:jDiaMLrtyBQzshOCLEtZq5Y5RHl5t82RDlNraarj21w=
 github.com/fbaube/parseutils v0.0.0-20220310134313-a5d0ceeeabb3/go.mod h1:J3gIK/myAYcFh9jAgVAawRE5iPxor38nmbfNGTnycJU=
 github.com/fbaube/parseutils v0.0.0-20250126182432-3beb8a9f0044 h1:i6SifqRqc3/A0LycH5T5LY23/hAnFok3rzVWvyw1okk=
 github.com/fbaube/parseutils v0.0.0-20250126182432-3beb8a9f0044/go.mod h1:TxtFcBJOoaJvKhKHpMnN6zR/vsQm72eaBLyzjumFOfg=
+github.com/fbaube/parseutils v0.0.0-20260519121606-fe9b77608d6f h1:2cySXEoGS2zYBevOy9V6FNTj8OnRLXxYhCLlW03BUfw=
+github.com/fbaube/parseutils v0.0.0-20260519121606-fe9b77608d6f/go.mod h1:7rtgVr5kfFgYS6JlUsJQuMWMFbpDx/5PKnxuWNQq1eM=
 github.com/fbaube/stringutils v0.0.0-20210716195613-2633ae132b43/go.mod h1:pyXNXdLCEtNZyV2GFdbOGiO6nDrH6SVmxp7EG9oISIE=
 github.com/fbaube/stringutils v0.0.0-20260511123541-ab996b555f8d h1:aVchLvgOjt7ZkT4xOyl0BwOOI298EORLsu1W9hYqRdY=
 github.com/fbaube/stringutils v0.0.0-20260511123541-ab996b555f8d/go.mod h1:prND58zPOTp1HSQ59bQl4w239JV0KNPYQZnNDRu5gjk=
