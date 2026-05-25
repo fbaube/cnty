@@ -7,6 +7,7 @@ import (
 	"errors"
 	FP "path/filepath"
 	S "strings"
+	// "time"
 
 	FU "github.com/fbaube/fileutils"
 	SU "github.com/fbaube/stringutils"
@@ -91,22 +92,23 @@ func NewContentityFS(aPath string, okayFilexts []string) (*ContentityFS, error){
 	if pRootCnty.HasError() {
 	     	L.L.Error("NewCntyFS: bad path: %s", aPath)
 		pPE.Op = "newcntyfs:newfso"
-		pPE.Err = errors.New("bad root path")
+		pPE.Err = fmt.Errorf("bad root path: %w",
+			  pRootCnty.GetError())
 		return pCntyFS, pPE 
 	}
 	pathToUse := pRootCnty.FSO.FPs.RelFP // FU.EnsureTrailingPathSep
 	pPE.Path = pathToUse
-	// os.DirFS(..) does not check or report problems
-	// with the path argument, so we DIY here 
+	// [os.DirFS] does not check or report problems with
+	// the path argument, while OTOH [os.Root] is groovy.
 	if pRootCnty.FSO.FPs.DoesNotExist || !pRootCnty.FSO.FPs.IsDir {
 		L.L.Error("NewCntyFS: Not a directory: %s", aPath)
 		pPE.Op = "newcntyfs.root"
 		pPE.Err = errors.New("not a valid directory")
 		return pCntyFS, pPE
 	}
-	// ---------------
-	//  Create RootFS
-	// ---------------
+	// -----------------
+	// Create the RootFS
+	// -----------------
 	// 2025.01 Change from RelFP to AbsFP (Altho 
 	// there was probly a good reason to use RelFP)
 	L.L.Info("Path for new os.RootFS: " + aPath)
@@ -133,6 +135,8 @@ func NewContentityFS(aPath string, okayFilexts []string) (*ContentityFS, error){
 	pCntyFS.asMapOfAbsFP = make(map[string]*Contentity)
 	pCntyFS.asMapOfAbsFP[pCntyFS.rootCnty.FSO.FPs.AbsFP] = pRootCnty
 
+	var initHasBeenDone bool 
+
 	// ==================
 	//    FIRST PASS
 	//  Load slice & map
@@ -155,9 +159,7 @@ func NewContentityFS(aPath string, okayFilexts []string) (*ContentityFS, error){
 //  - add to slice - and also map - whether dir or file
 //  - use materialised paths in slice to form links to build a tree 
 //
-// FIXME: Note that symlinks might not be handled securely, 
-// not until [os.Root] is used. And even then, they might
-// not be handled correctly. 
+// Note that [os.Root] should handle symlinks securely, 
 //
 // This func filters out several file types:
 //  - hidden (esp'ly .git directory)
@@ -179,13 +181,14 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	//  Were we passed an error?
 	// --------------------------
 	if inErr != nil {
-	   	 return pCntyFS.handleWalkerErrorArgument(inPath, &inDE, inErr)
+	   	 return pCntyFS.handleWalkerErrorArgument(
+			inPath, &inDE, inErr)
 	}
 	// --------------------
 	//  Set some variables 
 	// --------------------
-	var isFirst = // pCntyFS.mustInitRoot() // first call ?
-	    len(pCntyFS.asSlice) == 0 || len(pCntyFS.asMapOfAbsFP) == 0
+//	var isFirst = // pCntyFS.mustInitRoot() // first call ?
+//	    len(pCntyFS.asSlice) == 0 && len(pCntyFS.asMapOfAbsFP) == 0
 	var inName  = inDE.Name()
 	var inDEisDir = inDE.IsDir()
 	// If it's a directory, make sure it has a trailing slash.
@@ -203,13 +206,15 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	//  HANDLE ROOT NODE 
 	// (without filtering)
 	// ==================
-	if isFirst {
+//	if isFirst {
+	if !initHasBeenDone {
 		L.L.Info("pCntyFSWalker: inPath: " + inPath)
 	   	if !inDEisDir { return &fs.PathError { Path:inPath,
 		   	Op:"cntyfswalker.root", Err:errors.New("not a dir") } }
 		L.L.Debug("cntyfswalker.root: path: %s / %s", inName, inPath)
 		L.L.Debug("cntyfswalker.root: dirEntry: %+v", inDE)
 	   	e = pCntyFS.doInitRoot()
+		initHasBeenDone = true
 		if e == nil { return nil }
 		return &fs.PathError { Err:e, Path:inPath,
 		       Op:"newrootcnty.doinitroot" }
@@ -306,7 +311,11 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	        L.L.Debug("[%02d] isDIRLIKE: AbsFP: %s",
 			ii, cc.FSO.FPs.AbsFP)
 	    } else {
-		L.L.Debug("[%02d] MarkupType: %s", ii, cc.RawType())
+	     // fmt.Fprintf(os.Stderr, "ii is <%d> cc is <%p> \n", ii, cc)
+	        fmt.Fprintf(os.Stderr, "path: %s\n", cc.CreatPath())
+	     // fmt.Fprintf(os.Stderr, "cc.RawType is <%p> \n", cc.RawType())
+	//	time.Sleep(200 * time.Millisecond)
+	//	L.L.Debug("[%02d] MarkupType: %s", ii, cc.RawType())
 	    }
 	}
 
