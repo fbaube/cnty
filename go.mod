@@ -5,7 +5,7 @@ go 1.26.3
 require (
 	github.com/fbaube/contentanalysis v0.0.0-20260517055552-f425ff9fd041
 	github.com/fbaube/ctoken v0.0.0-20251106121702-333021124221
-	github.com/fbaube/fileutils v0.0.0-20260519121518-d3a3ed720974
+	github.com/fbaube/fileutils v0.0.0-20260524182024-38a64571b887
 	github.com/fbaube/gparse v0.0.0-20230421173125-0aaf74eb920c
 	github.com/fbaube/gtoken v0.0.0-20250202180149-400361451572
 	github.com/fbaube/gtree v0.0.0-20260423182224-b2b3f075a837
@@ -23,7 +23,7 @@ require (
 
 require (
 	github.com/fatih/color v1.19.0 // indirect
-	github.com/fbaube/datarepo v0.0.0-20250422172143-4b2a5bad214f // indirect
+	github.com/fbaube/datarepo v0.0.0-20260524190758-1266d024a715 // indirect
 	github.com/fbaube/dsmnd v0.0.0-20260423181020-c1c848686981 // indirect
 	github.com/fbaube/humanbytes v0.0.0-20250119091546-d58fbfdd444c // indirect
 	github.com/fbaube/lwdx v0.0.0-20241028093627-8a7133fbc931 // indirect
@@ -35,8 +35,8 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.44 // indirect
 	github.com/mgutz/str v1.2.0 // indirect
 	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
-	golang.org/x/net v0.54.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/tools/godoc v0.1.0-deprecated // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

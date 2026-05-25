@@ -12,17 +12,17 @@ import (
 )
 
 // Arg s is a filepath. The returned [Contentity] embeds [Nork]
-// and [FSO] (embeds [Errer]) but does NOT embed [FSONork].
-// If (Errer.HasError], it is a [*os.PathError].
+// and [FSO] (embeds [Errer]) but it does NOT embed [FSONork] !
+// If [Errer.HasError], it is a [*os.PathError].
 func newContentity(s string) *Contentity {
         var pC = new(Contentity)
         if s == "" {
                 pC.SetError(errors.New("newcnty: missing path"))
                 return pC
         }
-//	pC.FSONork = FU.NewFSOLoneNork(s)
-        pC.Nork = *N.NewNork(s)
-        pC.FSO = *FU.NewFSObject(s)
+//	pC.FSONork = FU.NewFSOLoneNork(s) // this was incorrect 
+        pC.Nork =  *N.NewNork(s)
+        pC.FSO  = *FU.NewFSObject(s)
         var pPE = new(os.PathError{Path:s})
         if pC.Nork.HasError() {
            pPE.Op = "newcnty:newnork"
@@ -59,7 +59,7 @@ func newContentity(s string) *Contentity {
 // 
 // We want everything to be in a nice tree of Norks, and it means that
 // we have to create Contenties for directories too (where `Raw_type
-// == SU.Raw_type_DIRLIKE`), so we have to handle that case too. 
+// == SU.Raw_type_DIRLIKE`?), so we have to handle that case too. 
 // .
 func NewContentity(aPath string) *Contentity {
 	var e error
@@ -67,7 +67,8 @@ func NewContentity(aPath string) *Contentity {
 	// FIXME We are not using a ContentityFactory yet,
 	// so we do not try to get a Factory root path 
 	// If we were passed an Abs.FP, it's okay.
-	// It was something like 
+	// It was something like
+
 /*	if FP.IsAbs(aPath) {
 		pFSONork.FSO = FU.NewFSObject(aPath)
 	 } else {
@@ -75,6 +76,10 @@ func NewContentity(aPath string) *Contentity {
 		pFSO = FU.NewFSObject(FP.Join(CntyEng.rootPath, aPath))
 	}
 */
+	// ------------------------------------------
+	// This call fills Nork (using func NewNork) 
+	//       and FSO (using func NewFSObject).
+	// ------------------------------------------
 	var pNewCnty = newContentity(aPath)
 	// If error, quick return.
         if pNewCnty.FSO.HasError() {
@@ -83,20 +88,12 @@ func NewContentity(aPath string) *Contentity {
 	// Have a pre-filled error ready 
 	pPE := new(os.PathError{Path:aPath})
 	L.L.Debug("NewContentity.FSO: %s", pNewCnty.FSO.Infos())
-	// =====================================
-	//  pNewCnty.(FSO,Nork) are OK, so from
-	//    here on we can return pNewCnty 
-	// =====================================
-/*	var pFSONork = N.NewFSOLoneNork(aPath)
-	if  pFSONork.HasError() {
-	     	pPE.Op = "newcnty:newrootfsotreenork"
-		pPE.Err = pNewCnty.FSO.GetError()
-		pNewCnty.SetError(pPE)
-		return pNewCnty
-	}
-	pNewCnty.Nork = *N.NewNork(aPath)
-*/
-	L.L.Okay(SU.Ybg("===> New Contentity: %s"), SU.Tildotted(aPath))
+
+	// =======================================
+	//  From here on, pNewCnty.(FSO,Nork) are
+	//  OK and we can return a valid pNewCnty 
+	// =======================================
+	L.L.Okay(SU.Ybg("Making new Contentity: %s"), SU.Tildotted(aPath))
 
 	// ======================================
 	//  If it's a directory (or similar,
@@ -105,18 +102,17 @@ func NewContentity(aPath string) *Contentity {
 	//  FIXME If it's a symlnk, we should probly
 	//  read the target and store it somewhere. 
 	// ======================================
-	if pNewCnty.FSO.FPs.IsDirlike {
+	if pNewCnty.FSO.FPs.IsDir || pNewCnty.FSO.FPs.IsDirlike {
 	   	// This should fail only if the item does not exist.
 		pNewCntyRow, e := m5db.NewContentityRow(&pNewCnty.FSO)
 		if e != nil {
-			L.L.Error("NewContentity(Dirlike)<%s>: %s", aPath, e)
-			println("LINE 122")
-			pPE.Op = "newcnty:newcntyrow:dirlike"
+			L.L.Error("NewContentity(Dir/like)<%s>: %s", aPath, e)
+			pPE.Op = "newcnty:newcntyrow:dir/like"
 			pPE.Err = e 
 			pNewCnty.FSO.SetError(pPE) 
 			return pNewCnty
 		}
-		L.L.Info(SU.Ybg(" Dir " + SU.Tildotted(pNewCnty.FSO.FPs.AbsFP)))
+		L.L.Okay(SU.Ybg(" Dir " + SU.Tildotted(pNewCnty.FSO.FPs.AbsFP)))
                 pNewCntyRow.FSO = pNewCnty.FSO
 		pNewCnty.ContentityRow = *pNewCntyRow
 		return pNewCnty 
@@ -127,21 +123,22 @@ func NewContentity(aPath string) *Contentity {
 	//   Start by forcing a fetch of the contents.
 	// =============================================
 	if !pNewCnty.FSO.IsFile() {
-	     panic("LINE 132 it's not a file")
+	     panic("contentity_new LINE 126 it's not a file ?!")
 	}
 	_, e = pNewCnty.FSO.Contents()
 	// L.L.Warning("LENGTH %d", len(pNewCnty.FSO.TypedRaw.Raw))
 	if e != nil {
-   	   println("LINE 137")
+   	// println("LINE 131")
 	   pPE.Op = "newcnty.contents"
 	   pPE.Err = e
 	   pNewCnty.FSO.SetError(pPE)
 	   return pNewCnty
 	}
+	
 	// ===================================
-	//  Now it gets interesting - working 
-	//  with fields persisted to the DB.
-	//  Declare some useful vars.
+	//  Now it gets interesting - we start 
+	//  working with fields persisted to 
+	//  the DB. Declare some useful vars.
 	// ===================================
 	var pNewCntyRow *m5db.ContentityRow
 	var pNewCntyAnlys *CA.ContentAnalysis
@@ -149,26 +146,25 @@ func NewContentity(aPath string) *Contentity {
 	//  "Promote" FSObject to
 	//   a ContentAnalysis
 	// =======================
-	// NewContentAnalysis return (nil,nil) for DIRLIKE 
 	pNewCntyAnlys, e = CA.NewContentAnalysis(&pNewCnty.FSO)
+	if pNewCntyAnlys == nil { panic("WTF") }
 	if e != nil { 
-	   L.L.Error("NewContentity(PP=>PA)<%s>: %s", aPath, e)
-	   println("LINE 158")
+	   L.L.Error("NewContentity(reg.file:%s): %s", aPath, e)
+	// println("LINE 158")
 	   pPE.Op = "newcnty:newcntanls"
 	   pPE.Err = e
 	   pNewCnty.FSO.SetError(pPE)
 	   return pNewCnty
 	}
-	if pNewCntyAnlys == nil { panic("WTF") }
 	// ===========================
 	// "Promote" ContentAnalysis
 	//        to ContentityRecord
 	// ===========================
 	pNewCntyRow, e = m5db.NewContentityRow(&pNewCnty.FSO)
 	if e != nil { // pNewCntyRow.HasError() {
-		L.L.Error("NewContentity(PA=>CR)<%s>: %s", aPath, e)
-	   	println("LINE 172")
-		pPE.Op = "newcnty:newcntyrow"
+		L.L.Error("NewContentity(Record)(%s): %s", aPath, e)
+	   	println("LINE 166")
+		pPE.Op = "newcnty:newcntyrec"
 		pPE.Err = e
 		pNewCnty.FSO.SetError(pPE)
 		return pNewCnty
@@ -177,14 +173,11 @@ func NewContentity(aPath string) *Contentity {
 		panic("UNK MarkupType in NewContentity")
 	}
 	// NOW if we want to exit, we can
-	// do the necessary assignments
+	//  do the necessary assignments
 	pNewCnty.ContentityRow = *pNewCntyRow
 	if pNewCnty.FSO.IsDirlike() {
 	   	// Whoops, not sposta be here
 		panic("Late Dirlike")
-		L.L.Info(SU.Ybg(" Directory " + SU.Tildotted(pNewCnty.FSO.FPs.AbsFP)))
-		pNewCnty.ContentityRow.FSO = pNewCnty.FSO
-		return pNewCnty 
 	}
 	L.L.Info(SU.Gbg(" " + pNewCnty.FSO.String() + " "))
 
@@ -193,6 +186,6 @@ func NewContentity(aPath string) *Contentity {
 	// ==================================
 	pNewCnty.GLinks = *new(GLinks)
 	// println("D=> NewContentity:", p.String()) // p.MType, p.AbsFP())
-	// fmt.Printf("D=> NewContentity: %s / %s \n", p.MType, p.AbsFP())
+	// fmt.Printf("D=> NewContentity: %s / %s \n",  p.MType, p.AbsFP())
 	return pNewCnty 
 }
