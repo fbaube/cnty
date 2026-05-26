@@ -61,12 +61,18 @@ func (p *Contentity) st1a_ProcessMetadata() *Contentity {
 	}
 	p.Lstage = "1a"
 	
-	var metaRaw string // ctoken.Span 
-	metaRaw = p.Meta.GetSpanOfString(p.FSO.TypedRaw.S())
-	if metaRaw == "" {
+	if p.FSO.TypedRaw.S() == "" { // metaRaw == "" {
 		p.L(LInfo, "No metadata found")
 		return p
 	}
+	var metaRaw string // ctoken.Span 
+	metaRaw = p.Meta.GetSpanOfString(p.FSO.TypedRaw.S())
+	// fmt.Printf("==> META-RAW: " + metaRaw + "\n")
+	if metaRaw == "" {
+	   p.L(LInfo, "No metadata")
+	   return p
+	}
+	p.L(LInfo, "Metadata: " + metaRaw + "\n")
 	switch mut := p.RawType(); mut {
 	case SU.Raw_type_XML, SU.Raw_type_HTML:
 		p.L(LDebug, "Meta: Pos:%d Raw: %s",
@@ -98,6 +104,7 @@ func (p *Contentity) st1a_ProcessMetadata() *Contentity {
 	case SU.Raw_type_MKDN:
 		p.L(LWarning, "TODO: Do sthg with YAML metadata")
 	}
+	if p.ParserResults == nil { panic("st1-read NIL L107") }
 	return p
 }
 
@@ -111,10 +118,11 @@ func (p *Contentity) st1b_GetCPR() *Contentity {
 	var errStr string 
 
 	var textRaw string // ctoken.Span
-	textRaw = p.Text.GetSpanOfString(p.FSO.TypedRaw.S())
-	if textRaw == "" {
-		p.L(LWarning, "TypedRaw lame hack in st1-read L113")
+	if p.FSO.TypedRaw.S() == "" { // textRaw == "" {
+		p.L(LWarning, "TypedRaw lame hack in st1-read L114")
 		textRaw = p.FSO.TypedRaw.S()
+	} else {
+	  textRaw = p.Text.GetSpanOfString(p.FSO.TypedRaw.S())
 	}
 	if len(textRaw) == 0 {
 		p.L(LWarning, "Zero-length content")
@@ -223,6 +231,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		*/
 	case SU.Raw_type_HTML:
 		var pCPR_H *PU.ParserResults_html
+		if p != nil && p.ParserResults != nil {
 		pCPR_H = p.ParserResults.(*PU.ParserResults_html)
 		common = pCPR_H.CommonCPR
 //		Ser = pCPR_H
@@ -235,8 +244,11 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 			p.WrapError("html.gtokens", e)
 		}
 		p.GTokens = GTs
+		}
 	case SU.Raw_type_XML:
 		var pCPR_X *XU.ParserResults_xml
+		if p != nil && p.ParserResults != nil {
+		// panic("st1-read ParserResults L242") } 
 		pCPR_X = p.ParserResults.(*XU.ParserResults_xml)
 		common = pCPR_X.CommonCPR
 //		Ser = pCPR_X
@@ -252,6 +264,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 		// fmt.Printf("==> Tags: %v \n", pGF.TagTally)
 		// fmt.Printf("==> Atts: %v \n", pGF.AttTally)
 		p.GTokens = GTs
+		}
 	}
 	fmt.Println("%v", common)
 /*
