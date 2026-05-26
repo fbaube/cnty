@@ -5,6 +5,8 @@ github.com/fbaube/contentanalysis v0.0.0-20260507103323-676d2f0114e4 h1:NBKQ31+m
 github.com/fbaube/contentanalysis v0.0.0-20260507103323-676d2f0114e4/go.mod h1:xNhNy6nlL1fN1f1Y8Zebgehcc/AS8GoTC3VqokU9l7Q=
 github.com/fbaube/contentanalysis v0.0.0-20260517055552-f425ff9fd041 h1:tXn0ryal1meV02twRrZ148B6f13/39LXmDKmqw5CMqk=
 github.com/fbaube/contentanalysis v0.0.0-20260517055552-f425ff9fd041/go.mod h1:w895/1AQdJngyaPij1rrrbAd4xDEUNQuZBa4k0jHuzw=
+github.com/fbaube/contentanalysis v0.0.0-20260526142648-abe4bb358695 h1:2u5KZICGWsOC7TPlLfnh9zLcJsK9OGXY9uns0vAYIPQ=
+github.com/fbaube/contentanalysis v0.0.0-20260526142648-abe4bb358695/go.mod h1:wlxuJPkQ1Ebk0fkCl0k9R8K2PhVV6CeRClV9qoNHBBA=
 github.com/fbaube/ctoken v0.0.0-20251106121702-333021124221 h1:7c4QGJmjCuUSaLUjlLPq15TRxz16832sH9+Mjxcs9lE=
 github.com/fbaube/ctoken v0.0.0-20251106121702-333021124221/go.mod h1:xoci0RjipFQZ+DSVQwyaDlXDNmzrbCPJaePltp2JP7g=
 github.com/fbaube/datarepo v0.0.0-20240406165319-bd643bde77a0 h1:1nyho3QA3PQXYNhU6exAH7GK1D5pE/uqTfsD4PCgP0c=
@@ -50,6 +52,8 @@ github.com/fbaube/nork v0.0.0-20260513174333-f412b25a4b1a h1:Y86xmWW5ey92QgxugF/
 github.com/fbaube/nork v0.0.0-20260513174333-f412b25a4b1a/go.mod h1:iFOiTIWwfFsoL0OVM50pFa9r0psLhre3ekX/EfGOA5g=
 github.com/fbaube/nork v0.0.0-20260519122447-6ce697984057 h1:qNCJrLuCtkGoNSzJm0epppXzu5A+q9x0NXgk7pPiwCc=
 github.com/fbaube/nork v0.0.0-20260519122447-6ce697984057/go.mod h1:jDiaMLrtyBQzshOCLEtZq5Y5RHl5t82RDlNraarj21w=
+github.com/fbaube/nork v0.0.0-20260526142720-701992afca32 h1:0dc4NBRXLK9zzlzMDiaga6biTCpU2UHr3wo2aYUkilk=
+github.com/fbaube/nork v0.0.0-20260526142720-701992afca32/go.mod h1:w8CzaN4thW7tUoHbSuuW6sJ/YTsvhO27ZPxM6dC5ek4=
 github.com/fbaube/parseutils v0.0.0-20220310134313-a5d0ceeeabb3/go.mod h1:J3gIK/myAYcFh9jAgVAawRE5iPxor38nmbfNGTnycJU=
 github.com/fbaube/parseutils v0.0.0-20250126182432-3beb8a9f0044 h1:i6SifqRqc3/A0LycH5T5LY23/hAnFok3rzVWvyw1okk=
 github.com/fbaube/parseutils v0.0.0-20250126182432-3beb8a9f0044/go.mod h1:TxtFcBJOoaJvKhKHpMnN6zR/vsQm72eaBLyzjumFOfg=

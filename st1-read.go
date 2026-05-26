@@ -190,8 +190,9 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 	var common XU.CommonCPR
 //	var Ser SU.Stringser
 
-	fmt.Fprintln(p.GTknsWriter, "=== Input file:", p.FSO.FPs.AbsFP)
-
+	if p.GTknsWriter != nil {
+	   fmt.Fprintln(p.GTknsWriter, "=== Input file:", p.FSO.FPs.AbsFP)
+	   }
 	switch p.RawType() {
 	case SU.Raw_type_MKDN:
 		var pCPR_M *PU.ParserResults_mkdn

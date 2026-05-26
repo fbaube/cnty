@@ -3,7 +3,7 @@ module github.com/fbaube/cnty
 go 1.26.3
 
 require (
-	github.com/fbaube/contentanalysis v0.0.0-20260517055552-f425ff9fd041
+	github.com/fbaube/contentanalysis v0.0.0-20260526142648-abe4bb358695
 	github.com/fbaube/ctoken v0.0.0-20251106121702-333021124221
 	github.com/fbaube/fileutils v0.0.0-20260524182024-38a64571b887
 	github.com/fbaube/gparse v0.0.0-20230421173125-0aaf74eb920c
@@ -13,7 +13,7 @@ require (
 	github.com/fbaube/m5db v0.0.0-20240509180501-84aae2bef357
 	github.com/fbaube/miscutils v0.0.0-20250126181629-6a2fa9af43b7
 	github.com/fbaube/mlog v0.0.0-20240425064535-3b89e3b28a76
-	github.com/fbaube/nork v0.0.0-20260519122447-6ce697984057
+	github.com/fbaube/nork v0.0.0-20260526142720-701992afca32
 	github.com/fbaube/parseutils v0.0.0-20260519121606-fe9b77608d6f
 	github.com/fbaube/stringutils v0.0.0-20260511123541-ab996b555f8d
 	github.com/fbaube/xmlutils v0.0.0-20251106122139-7e9277a71ff9

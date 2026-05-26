@@ -50,8 +50,8 @@ func (p *ContentityFS) ItemCount() int {
 func (p *ContentityFS) Size() int {
 	// /* Not init'lzd ?
 	if p.asMapOfAbsFP == nil || p.asSlice == nil { return 0 } 
-	if len(p.asSlice) != len(p.asMapOfAbsFP) {
-		L.L.Error("contentityfs size mismatch (slice &d, map %d)",
+	if len(p.asSlice) != 1+len(p.asMapOfAbsFP) {
+		L.L.Error("contentityfs size mismatch (slice %d, map %d)",
 			len(p.asSlice), len(p.asMapOfAbsFP))
 	}
 	return len(p.asSlice)
