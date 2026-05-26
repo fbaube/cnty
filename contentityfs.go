@@ -24,7 +24,7 @@ import (
 // feel free to use the functions on the embedded [Nord] ordered nodes.
 // .
 type ContentityFS struct {
-	// FS will be set from func [os.DirFS]
+	// FS will be set using an [os.Root]
 	fs.FS
 //	N.FSOTreeNorkFactory
 //	rootAbsPath string
@@ -49,12 +49,11 @@ func (p *ContentityFS) ItemCount() int {
 
 func (p *ContentityFS) Size() int {
 	// /* Not init'lzd ?
-	if p.asMapOfAbsFP != nil &&  p.asSlice != nil &&
-	   len(p.asSlice) != len(p.asMapOfAbsFP) {
+	if p.asMapOfAbsFP == nil || p.asSlice == nil { return 0 } 
+	if len(p.asSlice) != len(p.asMapOfAbsFP) {
 		L.L.Error("contentityfs size mismatch (slice &d, map %d)",
 			len(p.asSlice), len(p.asMapOfAbsFP))
 	}
-	// */
 	return len(p.asSlice)
 }
 
@@ -71,7 +70,6 @@ func (p *ContentityFS) RootContentity() *Contentity { // *RootContentity {
 }
 
 func (p *ContentityFS) RootAbsPath() string {
-//	return p.rootAbsPath
 	return p.rootCnty.FSO.FPs.AbsFP 
 }
 
@@ -84,13 +82,6 @@ func (p *ContentityFS) AsSlice() []*Contentity {
 func (p *ContentityFS) DoForEvery(stgprocsr ContentityStage) {
      L.L.Warning("mcm.ContentityFS.DoForEvery: not implemented")
 }
-
-/*
-// mustInitRoot isn't strictly needed, but it works as a sanity check.
-func (p *ContentityFS) mustInitRoot() bool {
-     	return len(p.asSlice) == 0 || len(p.asMapOfAbsFP) == 0
-}
-*/
 
 func (p *ContentityFS) doInitRoot() error {
 	var pRC *Contentity // *RootContentity
@@ -113,7 +104,7 @@ func (p *ContentityFS) doInitRoot() error {
 	// pRC.MType = "dir"
 	if pRC.FSO.TypedRaw == nil {
 	   // println("Oops, contentityfswalker, newRoot has no TypedRaw")
-	   L.L.Warning("newcontentityfs: newRoot has no TypedRaw, so adding")
+	   L.L.Warning("newcntyfs: newRoot has no TypedRaw, so adding")
 	   pRC.FSO.TypedRaw = new(CT.TypedRaw)
 	}
 	pRC.FSO.TypedRaw.Raw_type = SU.Raw_type_DIRLIKE
@@ -127,3 +118,5 @@ func (p *ContentityFS) doInitRoot() error {
 	p.nFiles = 0
 	return nil // NOT pRC! This is a walker func 
 }
+
+

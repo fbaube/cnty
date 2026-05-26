@@ -187,8 +187,6 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	// --------------------
 	//  Set some variables 
 	// --------------------
-//	var isFirst = // pCntyFS.mustInitRoot() // first call ?
-//	    len(pCntyFS.asSlice) == 0 && len(pCntyFS.asMapOfAbsFP) == 0
 	var inName  = inDE.Name()
 	var inDEisDir = inDE.IsDir()
 	// If it's a directory, make sure it has a trailing slash.
@@ -206,9 +204,9 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	//  HANDLE ROOT NODE 
 	// (without filtering)
 	// ==================
-//	if isFirst {
 	if !initHasBeenDone {
 		L.L.Info("pCntyFSWalker: inPath: " + inPath)
+		// This nest statement should be a panic 
 	   	if !inDEisDir { return &fs.PathError { Path:inPath,
 		   	Op:"cntyfswalker.root", Err:errors.New("not a dir") } }
 		L.L.Debug("cntyfswalker.root: path: %s / %s", inName, inPath)
@@ -344,7 +342,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		// --------------------------
 		//   Get dir portion of path
 		// --------------------------
-		itsDir := FP.Dir(pC.FSO.FPs.RelFP)
+		itsDir := FP.Dir(pC.FSO.FPs.AbsFP) // RelFP)
 		itsDir = FU.EnsureTrailingPathSep(itsDir)
 		// println(n.Path, "|cnex2|", itsDir)
 		// L.L.Warning("itsDir: " + itsDir)
@@ -356,16 +354,21 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		// If it's not, then possibly we have messed
 		// up with trailing separators. 
 		if pPar, ok = pCntyFS.asMapOfAbsFP[itsDir]; !ok {
-			L.L.Error("findParentInMap: failed for: " +
+			L.L.Error("findParentInMapOfAbsFP: failed for: " +
 				itsDir + " of " + pC.FSO.FPs.AbsFP)
-			println(fmt.Sprintf("%+v", pCntyFS.asMapOfAbsFP))
-			panic(pC.FSO.FPs.AbsFP)
+			// fmt.Fprintf(os.Stderr, fmt.Sprintf(
+			// 	"%+v", pCntyFS.asMapOfAbsFP))
+			L.L.Info("MAP:%+v", pCntyFS.asMapOfAbsFP)
+			return pCntyFS, errors.New(
+			       "findParentInMapOfAbsFP BARFED")
+			// panic(pC.FSO.FPs.AbsFP)
 		}
 		/*
 		if itsDir != par.AbsFP() { // or, Rel? 
 			panic(itsDir + " != " + par.AbsFP())
 		}
 		*/
+		// THIS FAILS 
 		pPar.AddKid(&pC.Nork)
 	}
 	// TODO Look for entries that do not have a parent assigned !
