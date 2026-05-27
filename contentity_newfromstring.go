@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"crypto/md5"
 	FU "github.com/fbaube/fileutils"
-	L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 	"github.com/fbaube/m5db"
 	SU "github.com/fbaube/stringutils"
 	CA "github.com/fbaube/contentanalysis"
@@ -36,7 +36,7 @@ func NewContentityFromString(inString, filext string) *Contentity {
 	
 	pCty = new(Contentity)
 	// fmt.Printf("\t Nord seqID %d \n", p.SeqID())
-	L.L.Okay(SU.Ybg("===> New Contentity: (no path)"))
+	pCty.L(LOkay, SU.Ybg("===> New Contentity: (no path)"))
 	// ============================
 	//  FSObject has its zero value. 
 	// ============================
@@ -47,7 +47,7 @@ func NewContentityFromString(inString, filext string) *Contentity {
 	// Allocate this to prevent NPEs
 	pCty.FSO.TypedRaw = new(CT.TypedRaw)
 	if len(inString) > FU.MAX_FILE_SIZE {
-		L.L.Warning("NewContentityFromString: " +
+		pCty.L(LWarning, "NewContentityFromString: " +
 			"too large (%d)", len(inString))
 		pCty.FSO.TypedRaw.Raw_type = SU.Raw_type_NIL
 		pCty.SetError(fmt.Errorf("NewContentityFromString: " +
@@ -55,7 +55,7 @@ func NewContentityFromString(inString, filext string) *Contentity {
 		return pCty 
 	}
 	if len(inString) < FU.MIN_FILE_SIZE { // Suspiciously tiny ?
-		L.L.Warning("NewContentityFromString: tiny (%d)", len(inString))
+		pCty.L(LWarning, "NewContentityFromString: tiny (%d)", len(inString))
 		pCty.FSO.TypedRaw.Raw_type = SU.Raw_type_NIL
 		pCty.SetError(fmt.Errorf("NewContentityFromString: " +
                        "content string too small: %d", len(inString)))
@@ -77,8 +77,8 @@ func NewContentityFromString(inString, filext string) *Contentity {
 	// NewContentAnalysis return (nil,nil) for DIRLIKE 
 	pCA, e = CA.NewContentAnalysis(pFSO)
 	if e != nil {  
-	   L.L.Error("NewContentityFromString: %s", e)
-	   println("LINE 110")
+	   pCty.L(LError, "NewContentityFromString: %s", e)
+	   println("LINE 81")
 	   pCty.SetError(fmt.Errorf("FSI.NewContentAnalysis.FromString: %w", e))
 	   return pCty 
 	}
@@ -88,7 +88,7 @@ func NewContentityFromString(inString, filext string) *Contentity {
 	// =================================
 	pCR, e = m5db.NewContentityRow(pFSO)
 	if e != nil {
-		L.L.Error("NewContentityFromString: %s", e)
+		pCty.L(LError, "NewContentityFromString: %s", e)
 	   	println("LINE 92")
 		panic("newcntyrow.fromstr:newcntyrow")
 		return pCty // ,errors.New("newcntyrow.fromstr:newcntyrow")
@@ -100,11 +100,11 @@ func NewContentityFromString(inString, filext string) *Contentity {
 	// do the necessary assignments
 	pCty.ContentityRow = *pCR
 	if pFSO.IsDirlike() {
-		L.L.Info(SU.Ybg(" Directory " + SU.Tildotted(pFSO.FPs.AbsFP)))
+		pCty.L(LInfo, SU.Ybg(" Directory " + SU.Tildotted(pFSO.FPs.AbsFP)))
 		pCty.ContentityRow.FSO = *pFSO
 		return pCty 
 	}
-	L.L.Info(SU.Gbg(" " + pFSO.String() + " "))
+	pCty.L(LInfo, SU.Gbg(" " + pFSO.String() + " "))
 
 	// ==================================
 	//  Now fill in the ContentityRecord

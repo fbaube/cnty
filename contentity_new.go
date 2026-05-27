@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 	FU "github.com/fbaube/fileutils"
-	L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 	N "github.com/fbaube/nork"
 	"github.com/fbaube/m5db"
 	SU "github.com/fbaube/stringutils"
@@ -87,13 +87,13 @@ func NewContentity(aPath string) *Contentity {
         }
 	// Have a pre-filled error ready 
 	pPE := new(os.PathError{Path:aPath})
-	L.L.Debug("NewContentity.FSO: %s", pNewCnty.FSO.Infos())
+	pNewCnty.L(LDebug, "NewContentity.FSO: %s", pNewCnty.FSO.Infos())
 
 	// =======================================
 	//  From here on, pNewCnty.(FSO,Nork) are
 	//  OK and we can return a valid pNewCnty 
 	// =======================================
-	L.L.Okay(SU.Ybg("Making new Contentity: %s"), SU.Tildotted(aPath))
+	pNewCnty.L(LOkay, SU.Ybg("Making new Contentity: %s"), SU.Tildotted(aPath))
 
 	// ======================================
 	//  If it's a directory (or similar,
@@ -106,13 +106,13 @@ func NewContentity(aPath string) *Contentity {
 	   	// This should fail only if the item does not exist.
 		pNewCntyRow, e := m5db.NewContentityRow(&pNewCnty.FSO)
 		if e != nil {
-			L.L.Error("NewContentity(Dir/like)<%s>: %s", aPath, e)
+			pNewCnty.L(LError, "NewContentity(Dir/like)<%s>: %s", aPath, e)
 			pPE.Op = "newcnty:newcntyrow:dir/like"
 			pPE.Err = e 
 			pNewCnty.FSO.SetError(pPE) 
 			return pNewCnty
 		}
-		L.L.Okay(SU.Ybg(" Dir " + SU.Tildotted(pNewCnty.FSO.FPs.AbsFP)))
+		pNewCnty.L(LOkay, SU.Ybg(" Dir " + SU.Tildotted(pNewCnty.FSO.FPs.AbsFP)))
                 pNewCntyRow.FSO = pNewCnty.FSO
 		pNewCnty.ContentityRow = *pNewCntyRow
 		return pNewCnty 
@@ -126,7 +126,7 @@ func NewContentity(aPath string) *Contentity {
 	     panic("contentity_new LINE 126 it's not a file ?!")
 	}
 	_, e = pNewCnty.FSO.Contents()
-	// L.L.Warning("LENGTH %d", len(pNewCnty.FSO.TypedRaw.Raw))
+	// pNewCnty.L(LWarning("LENGTH %d", len(pNewCnty.FSO.TypedRaw.Raw))
 	if e != nil {
    	// println("LINE 131")
 	   pPE.Op = "newcnty.contents"
@@ -149,7 +149,7 @@ func NewContentity(aPath string) *Contentity {
 	pNewCntyAnlys, e = CA.NewContentAnalysis(&pNewCnty.FSO)
 	if pNewCntyAnlys == nil { panic("WTF") }
 	if e != nil { 
-	   L.L.Error("NewContentity(reg.file:%s): %s", aPath, e)
+	   pNewCnty.L(LError, "NewContentity(reg.file:%s): %s", aPath, e)
 	// println("LINE 158")
 	   pPE.Op = "newcnty:newcntanls"
 	   pPE.Err = e
@@ -162,7 +162,7 @@ func NewContentity(aPath string) *Contentity {
 	// ===========================
 	pNewCntyRow, e = m5db.NewContentityRow(&pNewCnty.FSO)
 	if e != nil { // pNewCntyRow.HasError() {
-		L.L.Error("NewContentity(Record)(%s): %s", aPath, e)
+		pNewCnty.L(LError, "NewContentity(Record)(%s): %s", aPath, e)
 	   	println("LINE 166")
 		pPE.Op = "newcnty:newcntyrec"
 		pPE.Err = e
@@ -179,7 +179,7 @@ func NewContentity(aPath string) *Contentity {
 	   	// Whoops, not sposta be here
 		panic("Late Dirlike")
 	}
-	L.L.Info(SU.Gbg(" " + pNewCnty.FSO.String() + " "))
+	pNewCnty.L(LInfo, SU.Gbg(" " + pNewCnty.FSO.String() + " "))
 
 	// ==================================
 	//  Now fill in the ContentityRecord

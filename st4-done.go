@@ -1,7 +1,7 @@
 package cnty
 
 import (
-	L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 	SU "github.com/fbaube/stringutils"
 )
 
@@ -12,14 +12,14 @@ func (p *Contentity) st4_Done() *Contentity {
 		return p
 	}
 	// p.L(LProgress, "Done")
-	L.L.Debug("=== 44:Done ===")
+	p.L(LDebug, "=== 44:Done ===")
 	switch p.RawType() {
 	case SU.Raw_type_XML:
-		// L.L.Warning("TODO> 4. Done XML")
+		// p.L(LWarning("TODO> 4. Done XML")
 	case SU.Raw_type_HTML:
-		// L.L.Warning("TODO> 4. Done HTML")
+		// p.L(LWarning("TODO> 4. Done HTML")
 	case SU.Raw_type_MKDN:
-		// L.L.Warning("TODO> 4. Done MKDN")
+		// p.L(LWarning("TODO> 4. Done MKDN")
 	}
 	if !p.HasError() { p.L(LOkay, "=== 44:Done: Success ===") }
 	return p // ret 

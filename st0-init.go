@@ -3,7 +3,7 @@ package cnty
 import (
            "errors"
 	SU "github.com/fbaube/stringutils"
-	 L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 )
 
 // st0_Init does pre-processing prep and checks.
@@ -26,7 +26,7 @@ func (p *Contentity) st0_Init() *Contentity {
 	}
 	if p.MType == "" {
 		// panic("st0_Init: nil MType")
-		L.L.Error("st0_Init: nil MType")
+		p.L(LError, "st0_Init: nil MType")
 	}
 	p.Lstage = "00"
 	p.L(LDebug, "=== 00:Init ===")

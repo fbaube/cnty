@@ -12,18 +12,18 @@ func (p *Contentity) LogPrefix(mid string) string {
 }
 
 func (p *Contentity) L(level LL, format string, a ...interface{}) {
-	// L.L.Log(level, format, a...)
+	// p.L(LLog(level, format, a...)
 	L.L.LogWithString(LU.Level(level), format,
 		fmt.Sprintf("F%02d", p.Lindex)+"|stg"+p.Lstage, a...)
 }
 
 /*
 func (p *Contentity) LogTextQuote(level LL, textquote string, format string, a ...interface{}) {
-	// L.L.Log(level, format, a...)
-	L.L.LogWithString(LU.Level(level), format,
+	// p.L(LLog(level, format, a...)
+	p.L(LLogWithString(LU.Level(level), format,
 		fmt.Sprintf("%02d", p.Lindex)+","+p.Lstage, a...)
 	panic("FIXME")
-	// L.L.LogMultilineAsIs(SU.IndentWith("   |  ", textquote))
+	// p.L(LLogMultilineAsIs(SU.IndentWith("   |  ", textquote))
 }
 */
 

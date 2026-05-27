@@ -8,7 +8,7 @@ import (
 
 	CT "github.com/fbaube/ctoken"
 	FU "github.com/fbaube/fileutils"
-	L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 	SU "github.com/fbaube/stringutils"
 )
 
@@ -146,12 +146,12 @@ func (p *Contentity) GatherXmlGLinks() *Contentity {
 				} else {
 					pGL.RelFP = pGL.Link_raw
 				}
-				L.L.Debug("URI: " + pGL.RelFP + "#" + pGL.FragID)
+				p.L(LDebug, "URI: " + pGL.RelFP + "#" + pGL.FragID)
 				// p.AbsFP = FU.RelFilePath(FP.Join(
 				// 	pGF.InputFile.FileFullName.Echo(), p.RelFP.S())).AbsFP()
 				s, _ := FP.Abs(FP.Join(p.FSO.FPs.AbsFP, pGL.RelFP))
 				pGL.AbsFP = FU.AbsFilePath(s)
-				// L.L.Debug("URI AbsFP: " +
+				// p.L(LDebug, "URI AbsFP: " +
 				// 	FU.Enhomed(pGL.AbsFP.S()))
 			}
 			switch pGL.Att {

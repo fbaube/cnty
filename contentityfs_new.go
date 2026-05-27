@@ -284,7 +284,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	// -------------------------
 	pCntyFS.asSlice = append(pCntyFS.asSlice, pCty)
 	pCntyFS.asMapOfAbsFP[absPathToUse] = pCty
-	// L.L.Info("ADDED TO MAP L241: " + pathToUse)
+	// L.L.Info(ADDED TO MAP L287: " + pathToUse)
 	return nil
 })
 // ======================================================================
@@ -299,7 +299,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 	// Debuggery 
 	for ii, cc := range pCntyFS.asSlice {
 	    if cc == nil {
-	       L.L.Error ("OOPS, pCntyFS.asSlice[%02d] is NIL", ii)
+	       L.L.Error("OOPS, pCntyFS.asSlice[%02d] is NIL", ii)
 	       continue
 	    }
 	    /* if cc.FSObject == nil || cc.FSObject.FileMeta == nil {

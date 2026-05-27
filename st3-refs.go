@@ -1,7 +1,7 @@
 package cnty
 
 import (
-	L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 	SU "github.com/fbaube/stringutils"
 )
 
@@ -35,11 +35,11 @@ func (p *Contentity) DoBlockList() *Contentity {
 	}
 	switch p.RawType() {
 	case SU.Raw_type_XML:
-		L.L.Warning("TODO> 3a. DoBlockList XML")
+		p.L(LWarning, "TODO> 3a. DoBlockList XML")
 	case SU.Raw_type_HTML:
-		L.L.Warning("TODO> 3a. DoBlockList HTML")
+		p.L(LWarning, "TODO> 3a. DoBlockList HTML")
 	case SU.Raw_type_MKDN:
-		L.L.Warning("TODO> 3a. DoBlockList MKDN")
+		p.L(LWarning, "TODO> 3a. DoBlockList MKDN")
 	}
 	return p
 }
@@ -52,13 +52,13 @@ func (p *Contentity) DoGLinks() *Contentity {
 	}
 	switch p.RawType() {
 	case SU.Raw_type_XML:
-		L.L.Info("Calling GatherXmlGLinks...")
+		p.L(LInfo, "Calling GatherXmlGLinks...")
 		p.GatherXmlGLinks()
-		L.L.Info("Called! GatherXmlGLinks")
+		p.L(LInfo, "Called! GatherXmlGLinks")
 	case SU.Raw_type_HTML:
-		L.L.Warning("TODO> 3b. DoGLinks HTML")
+		p.L(LWarning, "TODO> 3b. DoGLinks HTML")
 	case SU.Raw_type_MKDN:
-		L.L.Warning("TODO> 3b. DoGLinks MKDN")
+		p.L(LWarning, "TODO> 3b. DoGLinks MKDN")
 	}
 	return p
 }
@@ -71,11 +71,11 @@ func (p *Contentity) DoTableOfContents() *Contentity {
 	}
 	switch p.RawType() {
 	case SU.Raw_type_XML:
-		L.L.Warning("TODO> 3c. DoTableOfContents XML")
+		p.L(LWarning, "TODO> 3c. DoTableOfContents XML")
 	case SU.Raw_type_HTML:
-		L.L.Warning("TODO> 3c. DoTableOfContents HTML")
+		p.L(LWarning, "TODO> 3c. DoTableOfContents HTML")
 	case SU.Raw_type_MKDN:
-		L.L.Warning("TODO> 3c. DoTableOfContents MKDN")
+		p.L(LWarning, "TODO> 3c. DoTableOfContents MKDN")
 	}
 	return p
 }

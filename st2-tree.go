@@ -5,7 +5,7 @@ import (
 	"os"
 	"github.com/fbaube/gtoken"
 	"github.com/fbaube/gtree"
-	L "github.com/fbaube/mlog"
+	// L "github.com/fbaube/mlog"
 	SU "github.com/fbaube/stringutils"
 )
 
@@ -103,11 +103,11 @@ func (p *Contentity) st2c_PostTreeMeta() *Contentity {
 	}
 	switch p.RawType() {
 	case SU.Raw_type_XML:
-		L.L.Warning("TODO> st2c_PostTreeMeta XML")
+		p.L(LWarning, "TODO> st2c_PostTreeMeta XML")
 	case SU.Raw_type_MKDN:
-		L.L.Warning("TODO> st2c_PostTreeMeta MKDN")
+		p.L(LWarning, "TODO> st2c_PostTreeMeta MKDN")
 	case SU.Raw_type_HTML:
-		L.L.Warning("TODO> st2c_PostTreeMeta HTML")
+		p.L(LWarning, "TODO> st2c_PostTreeMeta HTML")
 	}
 	return p
 }
@@ -124,7 +124,7 @@ func (p *Contentity) st2d_NormalizeTree() *Contentity {
 	}
 	switch p.RawType() {
 	case SU.Raw_type_XML:
-		L.L.Warning("TODO> 2d. NormalizeTree XML ==> ENTs, etc.!")
+		p.L(LWarning, "TODO> 2d. NormalizeTree XML ==> ENTs, etc.!")
 		/* code to use !
 		e = p.DoEntitiesList()
 		if e != nil {
@@ -136,9 +136,9 @@ func (p *Contentity) st2d_NormalizeTree() *Contentity {
 		}
 		*/
 	case SU.Raw_type_MKDN:
-		// L.L.Warning("TODO> 2d. NormalizeTree MKDN")
+		// p.L(LWarning("TODO> 2d. NormalizeTree MKDN")
 	case SU.Raw_type_HTML:
-		// L.L.Warning("TODO> 2d. NormalizeTree HTML")
+		// p.L(LWarning("TODO> 2d. NormalizeTree HTML")
 	}
 	return p
 }

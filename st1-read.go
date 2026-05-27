@@ -289,7 +289,7 @@ func (p *Contentity) st1c_MakeAFLfromCFL() *Contentity {
 	//  - the GToken
 	for i := 0; i < count; i++ {
 	        if p.GTokens[i] == nil {
-		   L.L.Warning("NIL at GTokens[%d]", i)
+		   p.L(LWarning("NIL at GTokens[%d]", i)
 		   continue
 		   }
 		tkn := *(p.GTokens[i])
