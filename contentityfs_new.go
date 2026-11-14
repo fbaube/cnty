@@ -12,6 +12,7 @@ import (
 	FU "github.com/fbaube/fileutils"
 	SU "github.com/fbaube/stringutils"
 	CT "github.com/fbaube/ctoken"
+	TL "github.com/fbaube/treelinks"
 	L "github.com/fbaube/mlog"
 )
 
@@ -369,9 +370,13 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		}
 		*/
 		// THIS FAILS
+        
+        if pPar.Nork.Links == nil { pPar.Nork.Links = new(TL.Treelinks) }
+        if   pC.Nork.Links == nil {   pC.Nork.Links = new(TL.Treelinks) }
+        
         fmt.Printf("****>> contentityfs_new L372 pPar<%p> pC<%p> \n",
                            pPar.Nork.Links, pC.Nork.Links)
-//		pPar.Nork.Links.AddKid(pC.Nork.Links)
+		pPar.Nork.Links.AddKid(pC.Nork.Links)
 	}
 	// TODO Look for entries that do not have a parent assigned !
 	
