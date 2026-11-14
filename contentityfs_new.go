@@ -370,7 +370,8 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		}
 		*/
 		// THIS FAILS
-        
+        if pPar == nil { panic("pPar nil ") }
+        if   pC == nil { panic("pC nil ") }
         if pPar.Nork.Links == nil { pPar.Nork.Links = new(TL.Treelinks) }
         if   pC.Nork.Links == nil {   pC.Nork.Links = new(TL.Treelinks) }
         
