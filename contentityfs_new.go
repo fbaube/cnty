@@ -368,7 +368,9 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 			panic(itsDir + " != " + par.AbsFP())
 		}
 		*/
-		// THIS FAILS 
+		// THIS FAILS
+        fmt.Printf("****>> contentityfs_new L372 pPar<%p> pC<%p> \n",
+                           pPar.Nork.Links, pC.Nork.Link)
 		pPar.Nork.Links.AddKid(pC.Nork.Links)
 	}
 	// TODO Look for entries that do not have a parent assigned !
