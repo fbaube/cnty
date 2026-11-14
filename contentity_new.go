@@ -11,18 +11,21 @@ import (
 	CA "github.com/fbaube/contentanalysis"
 )
 
-// Arg s is a filepath. The returned [Contentity] embeds [Nork]
-// and [FSO] (embeds [Errer]) but it does NOT embed [FSONork] !
-// If [Errer.HasError], it is a [*os.PathError].
+// newContentity takes arg s, a filepath. The returned
+// [Contentity] embeds [Nork] and [FSO] (embeds [Errer])
+// but it does NOT embed [FSONork]! If [Errer.HasError],
+// it is a [*os.PathError].
+// .
 func newContentity(s string) *Contentity {
         var pC = new(Contentity)
         if s == "" {
                 pC.SetError(errors.New("newcnty: missing path"))
                 return pC
         }
-//	pC.FSONork = FU.NewFSOLoneNork(s) // this was incorrect 
+//      pC.FSONork = FU.NewFSOLoneNork(s) // this was incorrect 
         pC.Nork =  *N.NewNork(s)
-        pC.FSO  = *FU.NewFSObject(s)
+        pC.FSO  = *FU.NewFSObject(s, nil)
+        // If no error, then FSO.UUID is valid. 
         var pPE = new(os.PathError{Path:s})
         if pC.Nork.HasError() {
            pPE.Op = "newcnty:newnork"

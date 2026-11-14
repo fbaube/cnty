@@ -336,7 +336,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		//  Shortcut if child of root
 		// ---------------------------
 		if !S.Contains(pC.FSO.FPs.RelFP, FU.PathSep) {
-			pCntyFS.rootCnty.AddKid(&pC.Nork)
+			pCntyFS.rootCnty.AddKid(pC.Nork.Links)
 			continue
 		}
 		// --------------------------
@@ -369,7 +369,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		}
 		*/
 		// THIS FAILS 
-		pPar.AddKid(&pC.Nork)
+		pPar.AddKid&pC.Nork.Links)
 	}
 	// TODO Look for entries that do not have a parent assigned !
 	

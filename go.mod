@@ -34,7 +34,7 @@ require (
 	github.com/mattn/go-isatty v0.0.22 // indirect
 	github.com/mattn/go-sqlite3 v1.14.44 // indirect
 	github.com/mgutz/str v1.2.0 // indirect
-	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
+	golang.org/x/exp v0.0.0-20260527015227-08cc5374adb3 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/tools/godoc v0.1.0-deprecated // indirect
