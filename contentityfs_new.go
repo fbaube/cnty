@@ -337,7 +337,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
 		//  Shortcut if child of root
 		// ---------------------------
 		if !S.Contains(pC.FSO.FPs.RelFP, FU.PathSep) {
-			pCntyFS.rootCnty.Nork.Links.AddKid(pC.Nork.Links)
+			pCntyFS.rootCnty.Nork.Links.AppendAsLastKid(pC.Nork.Links)
 			continue
 		}
 		// --------------------------
@@ -377,7 +377,7 @@ func(inPath string, inDE fs.DirEntry, inErr error) error { // fs.WalkDirFunc
         
         fmt.Printf("****>> contentityfs_new L372 pPar<%p> pC<%p> \n",
                            pPar.Nork.Links, pC.Nork.Links)
-		pPar.Nork.Links.AddKid(pC.Nork.Links)
+		pPar.Nork.Links.AppendAsLastKid(pC.Nork.Links)
 	}
 	// TODO Look for entries that do not have a parent assigned !
 	
